@@ -1,0 +1,3 @@
+function checkUsername(name) {
+    
+}
