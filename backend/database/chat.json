@@ -1,0 +1,14 @@
+{
+    "data": {
+        "users": [
+            {
+                "user": "Umidjon",
+                "chat": [ "Eugene" ]
+            },
+            {
+                "user": "Eugene",
+                "chat": [ "Umidjon" ]
+            }
+        ]
+    }
+}

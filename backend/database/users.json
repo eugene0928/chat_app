@@ -1,0 +1,18 @@
+{
+    "data": {
+        "users": [
+            {
+                "userId": 1,
+                "userName": "Eugene",
+                "pasword": "12345",
+                "date": 1646892711303
+            },
+            {
+                "userId": 2,
+                "userName": "Umidjon",
+                "pasword": "12345",
+                "date": 1646892763133
+            }
+        ]
+    }
+}
