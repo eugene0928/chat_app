@@ -45,4 +45,10 @@ app.get('/chat', (req, res) => {
     res.end(chats)
 })
 
+app.get('/message', (req, res) => {
+    let message = fs.readFileSync(path.join(__dirname, 'database', 'message.json'), 'utf-8')
+
+    res.end(message)
+})
+
 app.listen(PORT, () => console.log(`server is running on http://192.168.1.6:${PORT}`))
