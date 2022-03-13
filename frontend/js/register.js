@@ -109,6 +109,7 @@ form.onsubmit = async (event) => {
             window.location = 'http://192.168.1.6:6900/app'
        }
        
+       window.localStorage.setItem('user', username.value)
        // clean input
         username.value = null
         email.value = null
@@ -136,6 +137,7 @@ form.onsubmit = async (event) => {
         // location change
         window.location = 'http://192.168.1.6:6900/app'
 
+        window.localStorage.setItem('user', username.value)
         // clean input
         username.value = null
         password.value = null
