@@ -3,11 +3,25 @@
         "users": [
             {
                 "user": "Umidjon",
-                "chat": [ "Eugene" ]
+                "chat": [
+                    {
+                        "userName": "Eugene",
+                        "date": 1647179333816
+                    }, 
+                    {
+                        "userName": "Scott",
+                        "date": 1647179333816
+                    }
+                ]
             },
             {
                 "user": "Eugene",
-                "chat": [ "Umidjon" ]
+                "chat": [
+                    {
+                        "userName": "Umidjon",
+                        "date": 1647179333816
+                    }
+                ]
             }
         ]
     }
