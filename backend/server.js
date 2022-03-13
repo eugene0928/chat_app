@@ -17,4 +17,26 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
+app.get('/users', (req, res) => {
+    const users = fs.readFileSync(path.join(__dirname, 'database', 'users.json'), 'utf-8')
+
+    res.end(users)
+})
+
+app.post('/users', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    let info = await req.body
+
+    let users = fs.readFileSync(path.join(__dirname, 'database', 'users.json'), 'utf-8')
+    users = JSON.parse(users)
+    users.data.users.push(info)
+
+    fs.writeFileSync(path.join(__dirname, 'database', 'users.json'), JSON.stringify(users, null, 4))
+    res.end()
+})
+
+app.get('/app', (req, res) => {
+    res.render('main')
+})
+
 app.listen(PORT, () => console.log(`server is running on http://192.168.1.6:${PORT}`))
