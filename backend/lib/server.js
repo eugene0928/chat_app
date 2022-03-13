@@ -8,7 +8,7 @@ let globalValues = {}
 
 let server = ( req, res ) => {
     console.log(req.url)
-    
+
     const {pathname, query} = urlModule.parse(req.url.toLowerCase())
     const method = req.method.toUpperCase()
 
@@ -36,7 +36,8 @@ let server = ( req, res ) => {
     }
 
     res.render = function(htmlFile) {
-        res.setHeader('Content-Type', 'text/html')
+        console.log(globalValues['views'])
+        // res.setHeader('Content-Type', 'text/html')
         const file = fs.readFileSync(path.join(globalValues['views'], htmlFile + '.html'))
         return res.end(file)
     }
@@ -53,7 +54,7 @@ let server = ( req, res ) => {
 
         let pathExists = fs.existsSync(path.join(globalValues['static'], pathname))
 
-        if(!extname || !pathname) return res.end()
+        if(!extname || !pathExists) return res.end()
 
         const contentTypes = {
 			'.html': 'text/html',
