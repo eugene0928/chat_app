@@ -3,17 +3,24 @@ let conversation1 = document.querySelector('#conversation')
 let leftSideDiv = document.querySelector('.row.compose-sideBar')
 let MsgUser = document.querySelector('#mainUser')
 let mainName = document.querySelector('#main-name')
+let searchText = document.querySelector('#searchText')
+
 
 let mainUser = window.localStorage.getItem('user')
 
+let data = null
+let filteredUser = null
+
 window.addEventListener('load', async () => {
     mainName.textContent = mainUser
-    let data = await fetch('http://192.168.1.6:6900/chat')
+
+    data = await fetch('http://192.168.1.6:6900/chat')
     data = await data.json()
 
-    let filteredUser = data.data.users.find( el => el.user == mainUser)
+    filteredUser = data.data.users.find( el => el.user == mainUser)
 
     wholeDiv.innerHTML = null
+
     for(let user of filteredUser.chat) {
         renderMsgedUser(user)
     }
@@ -27,6 +34,12 @@ window.addEventListener('load', async () => {
     }
 })
 
+
+/**
+ * if left is available this function is for leftSide div, if not it is for mainSide div
+ * @param {object} user 
+ * @param {boolean} left 
+ */
 function renderMsgedUser(user, left) {
 
     let [div1, div2, div3, img, div4, div5, div6, span, div7, span2] = createEle('div', 'div', 'div', 'img', 'div', 'div', 'div', 'span', 'div', 'span')
@@ -88,3 +101,14 @@ function renderMsgedUser(user, left) {
     })
 }
 
+searchText.addEventListener('input', () => {
+
+    wholeDiv.innerHTML = null
+    let regExp = new RegExp(searchText.value, 'gi')
+
+    let users = filteredUser.chat.filter( user => user.userName.match(regExp))
+    console.log(users)
+    for(let i = 0; i < users.length; i++) {
+        renderMsgedUser(users[i])
+    }
+})
