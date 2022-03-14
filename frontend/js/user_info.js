@@ -4,12 +4,14 @@ let leftSideDiv = document.querySelector('.row.compose-sideBar')
 let MsgUser = document.querySelector('#mainUser')
 let mainName = document.querySelector('#main-name')
 let searchText = document.querySelector('#searchText')
+let composeText = document.querySelector('#composeText')
 
 
 let mainUser = window.localStorage.getItem('user')
 
 let data = null
 let filteredUser = null
+let filteredUsers = null
 
 window.addEventListener('load', async () => {
     mainName.textContent = mainUser
@@ -27,7 +29,7 @@ window.addEventListener('load', async () => {
 
     let allUsers = await fetch('http://192.168.1.6:6900/users')
     allUsers = await allUsers.json()
-    let filteredUsers = allUsers.data.users.filter( el => el.userName != mainUser) 
+    filteredUsers = allUsers.data.users.filter( el => el.userName != mainUser) 
 
     for(let user of filteredUsers) {
         renderMsgedUser(user, true)
@@ -110,5 +112,17 @@ searchText.addEventListener('input', () => {
     console.log(users)
     for(let i = 0; i < users.length; i++) {
         renderMsgedUser(users[i])
+    }
+})
+
+composeText.addEventListener('input', () => {
+    leftSideDiv.innerHTML = null
+
+    let regExp = new RegExp(composeText.value, 'gi')
+
+    let users = filteredUsers.filter( user => user.userName.match(regExp))
+    console.log(users)
+    for(let i = 0; i < users.length; i++) {
+        renderMsgedUser(users[i], true)
     }
 })
