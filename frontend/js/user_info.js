@@ -23,8 +23,10 @@ window.addEventListener('load', async () => {
 
     wholeDiv.innerHTML = null
 
-    for(let user of filteredUser.chat) {
-        renderMsgedUser(user)
+    if(filteredUser?.chat) {
+        for(let user of filteredUser.chat) {
+            renderMsgedUser(user)
+        }
     }
 
     let allUsers = await fetch('http://192.168.1.6:6900/users')
@@ -90,7 +92,7 @@ function renderMsgedUser(user, left) {
 
         let userMsg = messages.data.users.find( el => el.user == mainUser)
 
-        let neededMsg = userMsg.data.filter( el => el.user == user.userName)
+        let neededMsg = userMsg?.data.filter( el => el.user == user.userName)
 
         if(!userMsg?.data || !neededMsg.length) {
             alert('no chats yet!')
@@ -121,7 +123,6 @@ composeText.addEventListener('input', () => {
     let regExp = new RegExp(composeText.value, 'gi')
 
     let users = filteredUsers.filter( user => user.userName.match(regExp))
-    console.log(users)
     for(let i = 0; i < users.length; i++) {
         renderMsgedUser(users[i], true)
     }
