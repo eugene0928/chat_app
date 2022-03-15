@@ -1,4 +1,4 @@
-let conversation = document.querySelector('#conversation')
+
 let weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
 
 
