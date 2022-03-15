@@ -1,7 +1,8 @@
 const express = require('./lib/index.js')
-const PORT = process.env.PORT || 6900
 const fs = require('fs')
 const path = require('path')
+const os = require('os')
+const PORT = process.env.PORT || 6900
 
 // create app
 const app = express()
@@ -71,4 +72,4 @@ app.post('/message', async (req, res) => {
     res.end()
 
 })
-app.listen(PORT, () => console.log(`server is running on http://192.168.1.6:${PORT}`))
+app.listen(PORT, () => console.log(`server is running on http://${os.networkInterfaces().wlo1[0].address}:${PORT}`))
