@@ -8,6 +8,7 @@ let composeText = document.querySelector('#composeText')
 let rowReply = document.querySelector('.row.reply')
 let send = document.querySelector('#send')
 let msg = document.querySelector('#comment')
+let conversation = document.querySelector('#conversation')
 
 
 let mainUser = window.localStorage.getItem('user')
@@ -197,6 +198,14 @@ send.addEventListener('click', async () => {
             
         }
 
+        // clean previouse users
+        wholeDiv.innerHTML = null
+
+        let mainUserChatCopy = chatInfo.data.users.find( el => el.user == mainUser)
+        for(let user of mainUserChatCopy.chat) {
+            renderMsgedUser(user)
+        }
+
         let postChat = await fetch('http://192.168.1.6:6900/chat', {
             method: 'POST',
             headers: {
@@ -204,6 +213,8 @@ send.addEventListener('click', async () => {
             },
             body: JSON.stringify(chatInfo)
         })
+
+        
 /////////////////////////////////For Message database///////////////////////////////////////////////////////////////////
         // 1 sender
         // 0 reciever
@@ -256,6 +267,16 @@ send.addEventListener('click', async () => {
             })
         }
 
+        // clean previous msg
+        conversation.innerHTML = null
+
+        let senderMessageExistCopy = messageInfo.data.users.find( el => el.user == mainUser)
+        let neededMsg = senderMessageExistCopy.data.filter( el => el.user == MsgUser.textContent)
+
+        for(let user of neededMsg) {
+            renderMsg(user)
+        }
+
         let postMessage = await fetch('http://192.168.1.6:6900/message', {
             method: 'POST',
             headers: {
@@ -263,5 +284,7 @@ send.addEventListener('click', async () => {
             },
             body: JSON.stringify(messageInfo)
         })
+
+        msg.value = null
     }
 })
