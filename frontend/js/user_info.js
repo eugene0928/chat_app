@@ -118,7 +118,7 @@ searchText.addEventListener('input', () => {
     let regExp = new RegExp(searchText.value, 'gi')
 
     let users = filteredUser.chat.filter( user => user.userName.match(regExp))
-    console.log(users)
+
     for(let i = 0; i < users.length; i++) {
         renderMsgedUser(users[i])
     }
