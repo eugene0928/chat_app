@@ -5,6 +5,9 @@ let MsgUser = document.querySelector('#mainUser')
 let mainName = document.querySelector('#main-name')
 let searchText = document.querySelector('#searchText')
 let composeText = document.querySelector('#composeText')
+let rowReply = document.querySelector('.row.reply')
+let send = document.querySelector('#send')
+let msg = document.querySelector('#comment')
 
 
 let mainUser = window.localStorage.getItem('user')
@@ -84,6 +87,10 @@ function renderMsgedUser(user, left) {
 
     div1.addEventListener('click', async () => {
 
+        if(window.getComputedStyle(rowReply).display == 'none') {
+            rowReply.removeAttribute('hidden')
+        }
+
         MsgUser.textContent = user.userName
         conversation1.innerHTML = null
 
@@ -93,14 +100,13 @@ function renderMsgedUser(user, left) {
         let userMsg = messages.data.users.find( el => el.user == mainUser)
 
         let neededMsg = userMsg?.data.filter( el => el.user == user.userName)
-
         if(!userMsg?.data || !neededMsg.length) {
             alert('no chats yet!')
             return
         }
         
-        for(let i = 0; i < userMsg.data.length; i++) {
-            renderMsg(userMsg.data[i])
+        for(let i = 0; i < neededMsg.length; i++) {
+            renderMsg(neededMsg[i])
         }
     })
 }
@@ -125,5 +131,75 @@ composeText.addEventListener('input', () => {
     let users = filteredUsers.filter( user => user.userName.match(regExp))
     for(let i = 0; i < users.length; i++) {
         renderMsgedUser(users[i], true)
+    }
+})
+
+send.addEventListener('click', async () => {
+    if(msg.value.trim()) {
+        // checking chat database
+        let chatInfo = await fetch('http://192.168.1.6:6900/chat')
+        chatInfo = await chatInfo.json()
+
+        // find sender's info from chat database
+        let mainUserChat = chatInfo.data.users.find( el => el.user == mainUser)
+
+        if(mainUserChat) {
+            let receiverExist = mainUserChat.chat.find( el => el.userName == MsgUser.textContent)
+
+            if(receiverExist) {
+                receiverExist.date = Date.now()
+            } else {
+                mainUserChat.chat.push({
+                    userName: MsgUser.textContent,
+                    date: Date.now()
+                })
+            }
+        } else {
+            chatInfo.data.users.push({
+                user: mainUser,
+                chat: [
+                    {
+                        userName: MsgUser.textContent, 
+                        date: Date.now()
+                    }
+                ]
+            })
+            
+        }
+
+        // find reciever's info from chat database
+        let recieverChat = chatInfo.data.users.find( el => el.user == MsgUser.textContent)
+        if(recieverChat) {
+            let senderExist = recieverChat.chat.find( el => el.userName == mainUser)
+
+            if(senderExist) {
+                senderExist.date = Date.now()
+            } else {
+                recieverChat.chat.push({
+                    userName: mainUser,
+                    date: Date.now()
+                })
+            }
+        } else {
+            chatInfo.data.users.push({
+                user: MsgUser.textContent,
+                chat: [
+                    {
+                        userName: mainUser,
+                        date: Date.now()
+                    }
+                ]
+            })
+            
+        }
+
+        let postChat = await fetch('http://192.168.1.6:6900/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(chatInfo)
+        })
+
     }
 })
