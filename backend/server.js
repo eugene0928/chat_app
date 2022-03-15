@@ -51,4 +51,23 @@ app.get('/message', (req, res) => {
     res.end(message)
 })
 
+app.post('/chat', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Headers', '*')
+    let info = await req.body
+
+    fs.writeFileSync(path.join(__dirname, 'database', 'chat.json'), JSON.stringify(info, null, 4))
+    res.end()
+})
+
+
+app.post('/message', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Headers', '*')
+    let info = await req.body
+
+    fs.writeFileSync(path.join(__dirname, 'database', 'message.json'), JSON.stringify(info, null, 4))
+    res.end()
+
+})
 app.listen(PORT, () => console.log(`server is running on http://192.168.1.6:${PORT}`))
