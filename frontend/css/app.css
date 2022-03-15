@@ -150,9 +150,9 @@ body {
 }
 
 
-/*#searchBox-inner input {
+/* #searchBox-inner input {
   box-shadow: none;
-}*/
+} */
 
 .searchBox-inner input:focus {
   outline: none;
@@ -306,9 +306,9 @@ body {
   padding: 0 !important;
   margin: 0 !important;
   height: 100%;
-  /*width: 100%;*/
+  /* width: 100%; */
   border-left: 1px solid rgba(0, 0, 0, .08);
-  /*overflow-y: auto;*/
+  /* overflow-y: auto; */
 }
 
 .message {
@@ -346,7 +346,7 @@ body {
 }
 
 .message-main-receiver {
-  /*padding: 10px 20px;*/
+  /* padding: 10px 20px; */
   max-width: 60%;
 }
 
@@ -378,7 +378,7 @@ body {
   width: auto !important;
   padding: 4px 10px 7px !important;
   border-radius: 10px 10px 10px 0;
-  background: #ffffff;
+  background: #dfc0c0;
   font-size: 12px;
   text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
   word-wrap: break-word;
@@ -388,7 +388,7 @@ body {
 .sender {
   float: right;
   width: auto !important;
-  background: #dcf8c6;
+  background: #c2d4b4;
   border-radius: 10px 10px 0 10px;
   padding: 4px 10px 7px !important;
   font-size: 12px;
@@ -457,6 +457,9 @@ body {
   box-shadow: none;
   height: 100%;
   font-size: 16px;
+  background-color: #0088cc ;
+  border-color: #E0E0E0;
+  color: #000;
 }
 
 .reply-main textarea:focus {
