@@ -23,17 +23,6 @@ app.get('/users', (req, res) => {
     res.end(users)
 })
 
-app.post('/users', async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    let info = await req.body
-
-    let users = fs.readFileSync(path.join(__dirname, 'database', 'users.json'), 'utf-8')
-    users = JSON.parse(users)
-    users.data.users.push(info)
-
-    fs.writeFileSync(path.join(__dirname, 'database', 'users.json'), JSON.stringify(users, null, 4))
-    res.end()
-})
 
 app.get('/app', (req, res) => {
     res.render('main')
@@ -49,6 +38,18 @@ app.get('/message', (req, res) => {
     let message = fs.readFileSync(path.join(__dirname, 'database', 'message.json'), 'utf-8')
 
     res.end(message)
+})
+
+app.post('/users', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    let info = await req.body
+
+    let users = fs.readFileSync(path.join(__dirname, 'database', 'users.json'), 'utf-8')
+    users = JSON.parse(users)
+    users.data.users.push(info)
+
+    fs.writeFileSync(path.join(__dirname, 'database', 'users.json'), JSON.stringify(users, null, 4))
+    res.end()
 })
 
 app.post('/chat', async (req, res) => {
