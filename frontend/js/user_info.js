@@ -136,9 +136,13 @@ composeText.addEventListener('input', () => {
 
 send.addEventListener('click', async () => {
     if(msg.value.trim()) {
-        // checking chat database
+        // fetching  chat database
         let chatInfo = await fetch('http://192.168.1.6:6900/chat')
         chatInfo = await chatInfo.json()
+
+        // fetching message database
+        let messageInfo = await fetch('http://192.168.1.6:6900/message')
+        messageInfo = await messageInfo.json()
 
         // find sender's info from chat database
         let mainUserChat = chatInfo.data.users.find( el => el.user == mainUser)
@@ -200,6 +204,64 @@ send.addEventListener('click', async () => {
             },
             body: JSON.stringify(chatInfo)
         })
+/////////////////////////////////For Message database///////////////////////////////////////////////////////////////////
+        // 1 sender
+        // 0 reciever
 
+        // find sender's message info from database
+        let senderMessageExist = messageInfo.data.users.find( el => el.user == mainUser)
+
+        if(senderMessageExist) {
+            senderMessageExist.data.push( {
+                user: MsgUser.textContent,
+                message: msg.value,
+                date: Date.now(),
+                from: 1
+            })
+        } else {
+            messageInfo.data.users.push( {
+                user: mainUser,
+                data: [
+                    {
+                        user: MsgUser.textContent,
+                        message: msg.value,
+                        date: Date.now(),
+                        from: 1
+                    }
+                ]
+            })
+        }
+
+        // find receiver's message info from database
+        let receiverMessageExist =  messageInfo.data.users.find( el => el.user == MsgUser.textContent)
+
+        if(receiverMessageExist) {
+            receiverMessageExist.data.push({
+                user: mainUser,
+                message: msg.value,
+                date: Date.now(),
+                from: 0
+            })
+        } else {
+            messageInfo.data.users.push( {
+                user: MsgUser.textContent,
+                data: [
+                    {
+                        user: mainUser,
+                        message: msg.value,
+                        date: Date.now(),
+                        from: 0
+                    }
+                ]
+            })
+        }
+
+        let postMessage = await fetch('http://192.168.1.6:6900/message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(messageInfo)
+        })
     }
 })
