@@ -92,6 +92,9 @@ function renderMsgedUser(user, left) {
             rowReply.removeAttribute('hidden')
         }
 
+        // give focus to input field
+        msg.focus()
+        
         MsgUser.textContent = user.userName
         conversation1.innerHTML = null
 
