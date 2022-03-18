@@ -12,34 +12,14 @@ let btn = document.querySelector('#btn')
  * signIn handler
  */
 signIn.onclick = () => {
-    // give and remove active class
-    li[1].classList.add('active')
-    li[0].classList.remove('active')
-
-    // make invisible email field
-    email_label.style.display = 'none'
-    email.style.display = 'none'
-
-    email.required = false
-
-    btn.innerHTML = 'Sign in'
+  signingIn()
 }
 
 /**
  * signUp handler
  */
 signUp.onclick = () => {
-    // give and remove active class
-    li[0].classList.add('active')
-    li[1].classList.remove('active')
-
-    // make visible email field
-    email_label.style.display = 'block'
-    email.style.display = 'inline'
-
-    email.required = true
-
-    btn.innerHTML = 'Sign up'
+   signingUp()
 }
 
 /**
@@ -63,10 +43,12 @@ form.onsubmit = async (event) => {
         
 
         if(filteredUser) {
-            alert('This user is already exists, please choose another user')
+            alert('You have already signed up, please sign in')
             username.value = null
             password.value = null
             email.value = null
+
+            signingIn()
 
             return
         }
@@ -123,6 +105,8 @@ form.onsubmit = async (event) => {
 
             username.value = null
             password.value = null
+
+            signingUp()
             return
         }
 
@@ -146,3 +130,30 @@ form.onsubmit = async (event) => {
     }
 }
 
+function signingUp() {
+     // give and remove active class
+     li[0].classList.add('active')
+     li[1].classList.remove('active')
+ 
+     // make visible email field
+     email_label.style.display = 'block'
+     email.style.display = 'inline'
+ 
+     email.required = true
+ 
+     btn.innerHTML = 'Sign up'
+}
+
+function signingIn() {
+      // give and remove active class
+      li[1].classList.add('active')
+      li[0].classList.remove('active')
+  
+      // make invisible email field
+      email_label.style.display = 'none'
+      email.style.display = 'none'
+  
+      email.required = false
+  
+      btn.innerHTML = 'Sign in'
+}
